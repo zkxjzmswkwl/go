@@ -1,3 +1,12 @@
+# Go fork
+
+Adding what I want to the language. Will likely also include tools to port code using any added features to code accepted by the standard compiler.
+
+> Why use Go, a language built on simplicity, if you're just going to ignore the designer's intentions?
+
+Their intentions are rooted in programmers being incapable of maintaining a large project without doing stupid shit. The solution is to just not do stupid shit.
+
+# Original readme
 # The Go Programming Language
 
 Go is an open source programming language that makes it easy to build simple,
