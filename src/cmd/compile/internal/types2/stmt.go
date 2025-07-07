@@ -707,6 +707,15 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		}
 		check.stmt(inner, s.Body)
 
+	case *syntax.MixinStmt:
+		mixinName := s.Name.Value
+		mixinDecl := check.mixins[mixinName]
+		if mixinDecl == nil {
+			check.errorf(s, UndefinedMixin, "undefined mixin: %s", mixinName)
+			return
+		}
+		check.stmtList(inner, mixinDecl.Body.List)
+
 	default:
 		check.error(s, InvalidSyntaxTree, "invalid statement")
 	}

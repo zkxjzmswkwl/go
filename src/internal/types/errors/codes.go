@@ -1254,6 +1254,12 @@ const (
 	//  }
 	InvalidGo
 
+	// UndefinedMixin occurs when a mixin is referenced but not defined.
+	//
+	// Example:
+	//   Haven't the fkn foggiest yet.
+	UndefinedMixin
+
 	// All codes below were added in Go 1.17.
 
 	// BadDecl occurs when a declaration has invalid syntax.

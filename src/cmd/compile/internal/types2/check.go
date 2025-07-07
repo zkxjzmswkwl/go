@@ -144,6 +144,8 @@ type Checker struct {
 	nextID uint64                 // unique Id for type parameters (first valid Id is 1)
 	objMap map[Object]*declInfo   // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package // maps (import path, source directory) to (complete or fake) package
+
+	mixins map[string]*syntax.MixinDecl
 	// see TODO in validtype.go
 	// valids  instanceLookup      // valid *Named (incl. instantiated) types per the validType check
 

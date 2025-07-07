@@ -15,6 +15,29 @@ import (
 	"strings"
 )
 
+// -------------------------START_BLOCK(zkxjzmswkwl)--------------------------------
+type MixinDecl struct {
+	Doc   *CommentGroup
+	Mixin token.Pos
+	Name  *Ident
+	Body  *BlockStmt
+}
+
+type MixinStmt struct {
+	Mixin token.Pos
+	Name  *Ident
+}
+
+// TODO: (csmith): these are strictly to satisfy compiler for now
+func (d *MixinDecl) Pos() token.Pos { return d.Mixin }
+func (d *MixinDecl) End() token.Pos { return d.Body.End() }
+func (s *MixinStmt) Pos() token.Pos { return s.Mixin }
+func (s *MixinStmt) End() token.Pos { return s.Name.End() }
+func (*MixinDecl) declNode()        {}
+func (*MixinStmt) stmtNode()        {}
+
+// -------------------------END_BLOCK(zkxjzmswkwl)--------------------------------
+
 // ----------------------------------------------------------------------------
 // Interfaces
 //

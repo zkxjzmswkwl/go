@@ -58,6 +58,7 @@ const (
 	_If          // if
 	_Import      // import
 	_Interface   // interface
+	_Mixin       // mixin
 	_Map         // map
 	_Package     // package
 	_Range       // range

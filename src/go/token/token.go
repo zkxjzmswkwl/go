@@ -114,6 +114,7 @@ const (
 
 	INTERFACE
 	MAP
+	MIXIN
 	PACKAGE
 	RANGE
 	RETURN
@@ -220,6 +221,7 @@ var tokens = [...]string{
 
 	INTERFACE: "interface",
 	MAP:       "map",
+	MIXIN:     "mixin",
 	PACKAGE:   "package",
 	RANGE:     "range",
 	RETURN:    "return",

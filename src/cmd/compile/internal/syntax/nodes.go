@@ -53,6 +53,12 @@ type (
 		aDecl()
 	}
 
+	MixinDecl struct {
+		Name *Name
+		Body *BlockStmt
+		decl // (csmith): I'm literally just copying what the other declarations are doing. no thought.
+	}
+
 	//              Path
 	// LocalPkgName Path
 	ImportDecl struct {
@@ -334,6 +340,11 @@ type (
 	Stmt interface {
 		Node
 		aStmt()
+	}
+
+	MixinStmt struct {
+		Name *Name
+		stmt // (csmith): ditto.
 	}
 
 	SimpleStmt interface {

@@ -184,6 +184,7 @@ type Checker struct {
 	versions      map[*ast.File]string      // maps files to goVersion strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GoVersion
 	imports       []*PkgName                // list of imported packages
 	dotImportMap  map[dotImportKey]*PkgName // maps dot-imported objects to the package they were dot-imported through
+	mixins        map[string]*ast.MixinDecl // maps mixin names to their declarations
 	brokenAliases map[*TypeName]bool        // set of aliases with broken (not yet determined) types
 	unionTypeSets map[*Union]*_TypeSet      // computed type sets for union types
 	usedVars      map[*Var]bool             // set of used variables

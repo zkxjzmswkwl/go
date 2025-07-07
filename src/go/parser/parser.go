@@ -2450,6 +2450,21 @@ func (p *parser) parseForStmt() ast.Stmt {
 	}
 }
 
+func (p *parser) parseMixinStmt() *ast.MixinStmt {
+	if p.trace {
+		defer un(trace(p, "MixinStmt"))
+	}
+
+	pos := p.expect(token.MIXIN)
+	ident := p.parseIdent()
+	p.expectSemi()
+
+	return &ast.MixinStmt{
+		Mixin: pos,
+		Name:  ident,
+	}
+}
+
 func (p *parser) parseStmt() (s ast.Stmt) {
 	defer decNestLev(incNestLev(p))
 
@@ -2472,6 +2487,8 @@ func (p *parser) parseStmt() (s ast.Stmt) {
 		if _, isLabeledStmt := s.(*ast.LabeledStmt); !isLabeledStmt {
 			p.expectSemi()
 		}
+	case token.MIXIN:
+		s = p.parseMixinStmt()
 	case token.GO:
 		s = p.parseGoStmt()
 	case token.DEFER:
@@ -2849,6 +2866,25 @@ func (p *parser) parseFuncDecl() *ast.FuncDecl {
 	return decl
 }
 
+func (p *parser) parseMixinDecl() *ast.MixinDecl {
+	if p.trace {
+		defer un(trace(p, "MixinDecl"))
+	}
+
+	doc := p.leadComment
+	pos := p.expect(token.MIXIN)
+	ident := p.parseIdent()
+	body := p.parseBlockStmt()
+	p.expectSemi()
+
+	return &ast.MixinDecl{
+		Doc:   doc,
+		Mixin: pos,
+		Name:  ident,
+		Body:  body,
+	}
+}
+
 func (p *parser) parseDecl(sync map[token.Token]bool) ast.Decl {
 	if p.trace {
 		defer un(trace(p, "Declaration"))
@@ -2867,6 +2903,9 @@ func (p *parser) parseDecl(sync map[token.Token]bool) ast.Decl {
 
 	case token.FUNC:
 		return p.parseFuncDecl()
+
+	case token.MIXIN:
+		return p.parseMixinDecl()
 
 	default:
 		pos := p.pos

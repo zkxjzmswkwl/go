@@ -258,6 +258,22 @@ func (check *Checker) collectObjects() {
 		// we get "." as the directory which is what we would want.
 		fileDir := dir(check.fset.Position(file.Name.Pos()).Filename)
 
+		// ------------------------- START_BLOCK(zkxjzmswkwl) --------------------------------
+		for _, decl := range file.Decls {
+			if mixinDecl, ok := decl.(*ast.MixinDecl); ok {
+				name := mixinDecl.Name.Name
+				if check.mixins[name] != nil {
+					check.errorf(mixinDecl, DuplicateDecl, "mixin %s redeclared", name)
+					return
+				}
+				if check.mixins == nil {
+					check.mixins = make(map[string]*ast.MixinDecl)
+				}
+				check.mixins[name] = mixinDecl
+			}
+		}
+		// ------------------------- END_BLOCK(zkxjzmswkwl) --------------------------------
+
 		check.walkDecls(file.Decls, func(d decl) {
 			switch d := d.(type) {
 			case importDecl:

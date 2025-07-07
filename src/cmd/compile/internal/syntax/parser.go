@@ -384,6 +384,20 @@ func (p *parser) print(msg string) {
 	fmt.Printf("%5d: %s%s\n", p.line, p.indent, msg)
 }
 
+func (p *parser) mixinDecl() Decl {
+	if trace {
+		defer p.trace("mixinDecl")()
+	}
+
+	d := new(MixinDecl)
+	d.pos = p.pos()
+
+	d.Name = p.name()
+	d.Body = p.blockStmt("mixin declaration")
+
+	return d
+}
+
 // ----------------------------------------------------------------------------
 // Package files
 //
@@ -432,6 +446,12 @@ func (p *parser) fileOrNil() *File {
 		case _Import:
 			p.next()
 			f.DeclList = p.appendGroup(f.DeclList, p.importDecl)
+
+		case _Mixin:
+			p.next()
+			if d := p.mixinDecl(); d != nil {
+				f.DeclList = append(f.DeclList, d)
+			}
 
 		case _Const:
 			p.next()
@@ -2592,6 +2612,20 @@ func (p *parser) commClause() *CommClause {
 	return c
 }
 
+func (p *parser) mixinStmt() Stmt {
+	if trace {
+		defer p.trace("mixinStmt")()
+	}
+
+	s := new(MixinStmt)
+	s.pos = p.pos()
+
+	p.next() // consume "mixin"
+	s.Name = p.name()
+
+	return s
+}
+
 // stmtOrNil parses a statement if one is present, or else returns nil.
 //
 //	Statement =
@@ -2629,6 +2663,9 @@ func (p *parser) stmtOrNil() Stmt {
 	p.clearPragma()
 
 	switch p.tok {
+	case _Mixin:
+		return p.mixinStmt()
+
 	case _Lbrace:
 		return p.blockStmt("")
 

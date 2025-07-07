@@ -311,6 +311,7 @@ var sampleTokens = [...]struct {
 	{_Import, "import", 0, 0},
 	{_Interface, "interface", 0, 0},
 	{_Map, "map", 0, 0},
+	{_Mixin, "mixin", 0, 0},
 	{_Package, "package", 0, 0},
 	{_Range, "range", 0, 0},
 	{_Return, "return", 0, 0},
